@@ -13,7 +13,7 @@ module BRIDGES
     include("core/optimize.jl")
     include("core/export.jl")
 
-    function solve_optimization_problem(case)
+    function solve_optimization_problem(case,test_mode=false)
         # Define parameters
         param, cons = load_parameters(case)
 
@@ -31,16 +31,18 @@ module BRIDGES
 
         # Define the objective function
         define_objective!(model, param, cons, data)
-    
-        # Solve the optimization problem
-        optimize_model(model)
-    
-        # Get the results
-        results = get_results(model, param, cons, data)
 
-        top_dir, ts = mk_output_dir(case)
-        println("Saving to: ", top_dir, " completed at ", ts)
-        # save("/$(top_dir)/results.jld", "results", results)
+        if !test_mode
+            # Solve the optimization problem
+            optimize_model(model)
+
+            # Get the results
+            results = get_results(model, param, cons, data)
+
+            top_dir, ts = mk_output_dir(case)
+            println("Saving to: ", top_dir, " completed at ", ts)
+            save("/$(top_dir)/results.jld", "results", results)
+        end
 
         return nothing
     end
