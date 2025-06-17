@@ -1,6 +1,6 @@
-using BridgesCA
+using BRIDGES
 using Test
 
-@testset "BridgesCA.jl" begin
-    # Write your tests here.
+@testset "BRIDGES.jl" begin
+    BRIDGES.solve_optimization_problem("ca")
 end

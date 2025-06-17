@@ -1,0 +1,61 @@
+# This yaml configuration file stores constants for 
+#
+#      (1) executing the Snakemake data preprocessing pipeline (generates the files in BRIDGES_for_CA/Data) and
+#      (2) the model itself.
+#
+# Changing this file leads to alternative BRIDGES models and therefore allows to analyze different scenarios. 
+#
+# Every entry should have a short one-line comment on its purpose and source.
+
+
+constants:
+
+    ################################################################################
+    #### CONVERSIONS & CONSTANTS ####
+
+    UNIT_PER_THOUSAND: 1000
+
+    # Time
+    SEC_PER_HOUR: 3600                          # sec/hour
+    HOURS_PER_YEAR: 8760                        # hours/year
+
+    # Energy
+    MJ_PER_MWh: 3600                            # MJ/MWh
+    MWh_PER_MMBTU: 0.293                        # MWh/MMBtu
+    EF_NG: 0.181229                             # tCO2/MWh NG  This is "53.1/MWh_PER_MMBTU/1000". Per EPA emissions inventory (only CO2, no CH4 leakage)
+    HHV_H2: 12.7                                # MJ/standard m3
+    HHV_CH4: 37.7                               # MJ/standard m3
+    LHV_H2: 119.96                              # MJ/kg
+    LHV_CH4: 50                                 # MJ/kg
+    ENERGYCONTENT_CH4: 15.28                    # MJ/kg --> MWh / t, ~15 MWh/t
+    HV_MIN: 40                                  # MJ/kg
+    HV_MAX: 120                                 # MJ/kg
+
+    # Weight
+    LB_PER_TON: 0.0004535924
+    KG_PER_TON: 1000                            # kg/ton
+
+    # Emissions
+    GWP_CH4: 28                                 # GWP100
+    GWP_R410A: 2088
+    GWP_R32: 675
+    GWP_C3H8: 3
+    GWP_CO2: 1
+    
+    # Gas and power flow
+    BASEMVA: 100
+    PRESSURE_MIN: 11.884429                     # This is (3447380/10^6)^2 and also 500 psi squared
+    PRESSURE_MAX: 106.959777                    # This is (10342136/10^6)^2 and also 800 psi squared
+
+    # Gas pipeline simulation constants
+    T_GAS: 300                                  # [K]
+    T_N: 298.15                                 # [K]
+    PI: 3.14
+    COMPRESSIBILITY: 0.96
+    R: 8.314                                    # J/mol-K
+    UNIVDENSITY_CH4: 40.87472                   # moles/standard m3
+    UNIVDENSITY_H2: 40.87472                    # moles/standard m3
+    M_CH4: 0.016                                # kg/mol
+    M_H2: 0.002                                 # kg/mol
+    MOL_PER_KMOL: 1000                          # mol/kmol
+

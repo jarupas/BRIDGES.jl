@@ -67,6 +67,6 @@ jobs:
         shell: julia --project=docs --color=yes {0}
         run: |
           using Documenter: DocMeta, doctest
-          using BridgesCA
-          DocMeta.setdocmeta!(BridgesCA, :DocTestSetup, :(using BridgesCA); recursive=true)
-          doctest(BridgesCA)
+          using BRIDGES
+          DocMeta.setdocmeta!(BRIDGES, :DocTestSetup, :(using BRIDGES); recursive=true)
+          doctest(BRIDGES)

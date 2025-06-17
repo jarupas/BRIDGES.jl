@@ -1,0 +1,49 @@
+module BRIDGES
+
+    # Import packages
+    using Clustering, CSV, DataFrames, Dates, Distances, Random, Tables, YAML
+    using Gurobi, JuMP, JLD
+
+    # Include other source files into this module
+    include("core/parameters.jl")
+    include("core/import.jl")
+    include("core/cluster.jl")
+    include("core/constraint.jl")
+    include("core/objective.jl")
+    include("core/optimize.jl")
+    include("core/export.jl")
+
+    function solve_optimization_problem(case)
+        # Define parameters
+        param, cons = load_parameters(case)
+
+        # Import and cluster data
+        data = load_data(param, cons)
+
+        cluster!(param, cons, data)
+        
+        # Create a new optimization model
+        model = Model(optimizer_with_attributes(Gurobi.Optimizer,"Threads" => 8,"BarHomogeneous" => 1,"ScaleFlag"=>2, "FeasibilityTol"=> 0.005, 
+        "LogToConsole" => 1, "ScaleFlag" => 1, "OptimalityTol" => 0.001, "BarConvTol"=> 0.0001, "Method"=> 2, "Crossover"=> 0))
+    
+        # Define the constraints
+        assemble_constraints!(model, param, cons, data)
+
+        # Define the objective function
+        define_objective!(model, param, cons, data)
+    
+        # Solve the optimization problem
+        optimize_model(model)
+    
+        # Get the results
+        results = get_results(model, param, cons, data)
+
+        top_dir, ts = mk_output_dir(case)
+        println("Saving to: ", top_dir, " completed at ", ts)
+        # save("/$(top_dir)/results.jld", "results", results)
+
+        return nothing
+    end
+
+    export solve_optimization_problem
+end

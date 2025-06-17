@@ -1,0 +1,41 @@
+Technology,Cost
+Natural gas CC,Mid
+Natural gas CT,Mid
+Natural gas CCS,Mid
+Coal IGCC,Mid
+Petroleum CT,Mid
+Geothermal,Mid
+Geothermal EGS,Mid
+Biopower,Mid
+Hydro,Mid
+Onshore wind,Mid
+Offshore wind,Mid
+Solar,Mid
+Nuclear,Mid
+Rondo heat,Mid
+Hydrogen heat,Mid
+Underground gas storage,Mid
+LNG peak shaving,Mid
+Electric boiler,Mid
+Li-ion battery,Mid
+Long-duration storage,Mid
+Multi-day storage,Mid
+Pumped hydro storage,Mid
+Electrolysis,Mid
+Net-zero CH4,Mid
+Biomethane,Mid
+Natural gas,Mid
+Wind,Mid
+Biomass,Mid
+Petroleum,Mid
+Coal,Mid
+hot_water_natural_gas,Mid
+hot_water_electricity,Mid
+hvac_natural_gas,Mid
+hvac_heat_pump,Mid
+range_oven_natural_gas,Mid
+range_oven_electricity,Mid
+hot_water_com_natural_gas,Mid
+hot_water_com_electricity,Mid
+heating_com_natural_gas,Mid
+heating_com_electricity,Mid
