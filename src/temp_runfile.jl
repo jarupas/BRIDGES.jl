@@ -20,7 +20,7 @@ include("core/optimize.jl")
 include("core/export.jl")
 
 case = "ca"
-save_results = true
+save_results = false
 
 # Define parameters
 param, cons = load_parameters(case)
@@ -31,7 +31,7 @@ data = load_data(param, cons)
 cluster!(param, cons, data)
 
 # Create a new optimization model
-model = Model(optimizer_with_attributes(Gurobi.Optimizer,"Threads" => 8,"BarHomogeneous" => 1,"ScaleFlag"=>2, "FeasibilityTol"=> 0.005, 
+model = Model(optimizer_with_attributes(Gurobi.Optimizer,"Threads" => 32,"BarHomogeneous" => 1,"ScaleFlag"=>2, "FeasibilityTol"=> 0.005, 
 "LogToConsole" => 1, "ScaleFlag" => 1, "OptimalityTol" => 0.001, "BarConvTol"=> 0.0001, "Method"=> 2, "Crossover"=> 0))
 
 # Define the constraints

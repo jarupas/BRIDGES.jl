@@ -63,6 +63,7 @@ params:
 
     # Heat toggles
     simpleHeatElectrification_ON: 1   # simple == without heat storage
+    fraction_electrifiableHeat: 0.7
     nonGasHeat_ON: 1
     H2Heating_allowed: 0
 
@@ -122,8 +123,6 @@ params:
 
     # Storage
     SOC_fraction: 0.5
-    fraction_electrifiableHeat: 0
-
     gasstorage_cost: 0.5                       # $/MMBTU
 
     ################################################################################
@@ -201,7 +200,7 @@ params:
     ################################################################################
     #### FIRM GEN OPTIONS ####
     techScenario_Nuclear: 0                         # if 0, no new build
-    nuclear_RetirementYear: 2060                    # year to force retire all new and existing nuclear
+    retirementYear_Nuclear: 2060                    # year to force retire all new and existing nuclear
 
-    techScenario_OffshoreWind: 0                    # 0 activates restriction
+    techScenario_OffshoreWind: 1                    # 0 activates restriction
     techScenario_NGCC: 0                            # if 0 restricts to no new build of NG CC,CT,CC-CCS

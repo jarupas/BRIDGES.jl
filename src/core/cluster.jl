@@ -140,7 +140,8 @@ function perform_cluster(param, cluster_data)
         :medoids => medoids,
         :weights => weights,
         :repdays => repdays,
-        :assignments => a
+        :assignments => a,
+        :data => cluster_data
     )
     return CLUSTER
 end

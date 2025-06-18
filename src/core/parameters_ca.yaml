@@ -41,20 +41,20 @@ params:
 
     # Indicate whether to include constraints that link representative time periods
     # for tracking storage state of charge (if = 0, periodicity constraints are imposed for each rep. period)
-    LINKED_PERIODS_STORAGE: 0
+    LINKED_PERIODS_STORAGE: 1
     # for generator operations such as min up/down times and ramp rates (if = 0, constraints only apply within each rep. period)
     LINKED_PERIODS_GENOPS: 0
 
     # Indicate whether steady-state physics should be simulated for the electric and gas systems
     # If = 0, the flows of power and gas will be governed by simple transport models
-    STEADYSTATE_ELEC: 0
+    STEADYSTATE_ELEC: 1
     STEADYSTATE_GAS: 0
     bounding_steady_states: 0                   # default 0
 
     # Appliances and transport toggles
     appliance_decisions: 1                      # whether retired appliances may be replaced by appliances that satisfy same demand but with different fuel
     transport_decisions: 1                      # whether retired vehicles may be replaced by vehicles that satisfy same demand but with different fuel
-    consider_refrigerants: 0                    # 1 = CARB aligned, 2 = beyond CARB, 3 = worse case, MUST set allsector_emissions_constraint = 1 too
+    consider_refrigerants: 1                    # 1 = CARB aligned, 2 = beyond CARB, 3 = worse case, MUST set allsector_emissions_constraint = 1 too
 
     # Storage toggles
     MDS_allowed: 1
@@ -63,6 +63,7 @@ params:
 
     # Heat toggles
     simpleHeatElectrification_ON: 1   # simple == without heat storage
+    fraction_electrifiableHeat: 0.7
     nonGasHeat_ON: 1
     H2Heating_allowed: 0
 
@@ -77,7 +78,7 @@ params:
     #### CLUSTERING PARAMETERS ####
 
     T_inv: 5                                    # Number of investment time periods modeled.
-    N_Periods: 10                                # Number of representative operational time slices modeled for each investment period.
+    N_Periods: 5                                # Number of representative operational time slices modeled for each investment period.
     HOURS_PER_PERIOD: 24                        # Number of hourly time steps in each rep. op. time slice
 
     # Clustering technique to use for generating representative days
@@ -122,8 +123,6 @@ params:
 
     # Storage
     SOC_fraction: 0.5
-    fraction_electrifiableHeat: 0
-
     gasstorage_cost: 0.5                       # $/MMBTU
 
     ################################################################################
@@ -201,7 +200,7 @@ params:
     ################################################################################
     #### FIRM GEN OPTIONS ####
     techScenario_Nuclear: 0                         # if 0, no new build
-    nuclear_RetirementYear: 2060                    # year to force retire all new and existing nuclear
+    retirementYear_Nuclear: 2030                    # year to force retire all new and existing nuclear
 
-    techScenario_OffshoreWind: 0                    # 0 activates restriction
+    techScenario_OffshoreWind: 1                    # 0 activates restriction
     techScenario_NGCC: 0                            # if 0 restricts to no new build of NG CC,CT,CC-CCS

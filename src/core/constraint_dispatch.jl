@@ -66,8 +66,7 @@ function add_constraint_dispatch!(m::Model, param, cons, data)
     # See Eq. 2.22d in Von Wald thesis
     ###############################################################################
     @constraint(m, [I = 1:T_inv, T = 1:T_ops, t = 1:t_ops, g = 1:gen], m[:generation][I,T,t,g] <= PROF[:VRE][T,t,g]*GEN[:UnitSize][g]*(GEN[:ExistingUnits][g] + sum(m[:unitsbuilt_GEN][i,g] - m[:unitsretired_GEN][i,g] for i = 1:I)))
-    @variable(m, curtailmentRE[I = 1:T_inv, T = 1:T_ops, t = 1:t_ops, g = 1:gen] >= 0)
-    @constraint(m, [I = 1:T_inv, T = 1:T_ops, t = 1:t_ops, g = 1:gen], curtailmentRE[I,T,t,g] == GEN[:isRenewable][g]*(PROF[:VRE][T,t,g]*GEN[:UnitSize][g]*(GEN[:ExistingUnits][g] + sum(m[:unitsbuilt_GEN][i,g] - m[:unitsretired_GEN][i,g] for i = 1:I)) - m[:generation][I,T,t,g]))
+    @expression(m, curtailmentRE[I = 1:T_inv, T = 1:T_ops, t = 1:t_ops, g = 1:gen], GEN[:isRenewable][g]*(PROF[:VRE][T,t,g]*GEN[:UnitSize][g]*(GEN[:ExistingUnits][g] + sum(m[:unitsbuilt_GEN][i,g] - m[:unitsretired_GEN][i,g] for i = 1:I)) - m[:generation][I,T,t,g]))
 
     ### Ramping constraint
     # See Eq. 2.23 in Von Wald thesis
@@ -166,7 +165,6 @@ function add_constraint_dispatch!(m::Model, param, cons, data)
     # See Eq. 2.52 in Von Wald thesis
     @constraint(m, [I = 1:T_inv, T = 1:T_ops, t = 1:t_ops-1, s = 1:sto_gas], m[:charging_GAS][I,T,t,s] == m[:charging_GAS][I,T,t+1,s])
     @constraint(m, [I = 1:T_inv, T = 1:T_ops, t = 1:t_ops-1, s = 1:sto_gas], m[:discharging_GAS][I,T,t,s] == m[:discharging_GAS][I,T,t+1,s])
-
     @constraint(m, [I = 1:T_inv, T = 1:T_ops, t = 1:t_ops, s = 1:sto_heat], m[:storedEnergy_HEAT][I,T,t+1,s] == m[:storedEnergy_HEAT][I,T,t,s] + STO_HEAT[:ChargeETA][s]*m[:charging_HEAT][I,T,t,s] - (1/STO_HEAT[:DischargeETA][s])*m[:discharging_HEAT][I,T,t,s]-STO_HEAT[:LossETA][s]*m[:storedEnergy_HEAT][I,T,t,s])
     @constraint(m, [I = 1:T_inv, T = 1:T_ops, t = 1:t_ops+1, s = 1:sto_heat], m[:storedEnergy_HEAT][I,T,t,s] <= STO_HEAT[:UnitSize][s]*(STO_HEAT[:ExistingUnits][s]+sum(m[:unitsbuilt_STO_HEAT][i,s] - m[:unitsretired_STO_HEAT][i,s] for i = 1:I)))
     @constraint(m, [I = 1:T_inv, T = 1:T_ops, t = 1:t_ops, s = 1:sto_heat], m[:charging_HEAT][I,T,t,s] <= (1/STO_HEAT[:ChargeETA][s]) * STO_HEAT[:ChargeRate][s] * (STO_HEAT[:ExistingUnits][s]+sum(m[:unitsbuilt_STO_HEAT][i,s] - m[:unitsretired_STO_HEAT][i,s] for i = 1:I)))
@@ -201,7 +199,6 @@ function add_constraint_dispatch!(m::Model, param, cons, data)
         @constraint(m, [I = 1:T_inv, s = 1:sto_elec], m[:SOCTracked_ELEC][I,Int(param["Periods_Per_Year"]),s] == m[:storedEnergy_ELEC][I,Int(RepDays[I,1]),1,s])
         @constraint(m, [I = 1:T_inv, s = 1:sto_elec], m[:SOCTracked_ELEC][I,Int(param["Periods_Per_Year"]),s] == param["SOC_fraction"]*STO_ELEC[:UnitSize][s]*(STO_ELEC[:ExistingUnits][s]+sum(m[:unitsbuilt_STO_ELEC][i,s] - m[:unitsretired_STO_ELEC][i,s] for i = 1:I))*STO_ELEC[:Duration][s])
 
-        
         # GAS
         @variable(m, MinSOC_GAS[I = 1:T_inv, T = 1:T_ops, s = 1:sto_gas] >= 0)
         @variable(m, MaxSOC_GAS[I = 1:T_inv, T = 1:T_ops, s = 1:sto_gas] >= 0)
