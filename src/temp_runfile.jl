@@ -20,7 +20,7 @@ include("core/optimize.jl")
 include("core/export.jl")
 
 case = "ca"
-test_mode = false
+save_results = true
 
 # Define parameters
 param, cons = load_parameters(case)
@@ -40,15 +40,16 @@ assemble_constraints!(model, param, cons, data)
 # Define the objective function
 define_objective!(model, param, cons, data)
 
-if !test_mode
-    # Solve the optimization problem
-    optimize_model(model)
+# Solve the optimization problem
+optimize_model(model)
 
-    # Get the results
-    results = get_results(model, param, cons, data)
+# Get the results
+results = get_results(model, param, cons, data)
 
+if save_results
     top_dir, ts = mk_output_dir(case)
     println("Saving to: ", top_dir, " completed at ", ts)
     save("/$(top_dir)/results.jld", "results", results)
 end
+
 

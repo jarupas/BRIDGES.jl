@@ -76,8 +76,8 @@ params:
     ################################################################################
     #### CLUSTERING PARAMETERS ####
 
-    T_inv: 1                                    # Number of investment time periods modeled.
-    N_Periods: 5                                # Number of representative operational time slices modeled for each investment period.
+    T_inv: 5                                    # Number of investment time periods modeled.
+    N_Periods: 10                                # Number of representative operational time slices modeled for each investment period.
     HOURS_PER_PERIOD: 24                        # Number of hourly time steps in each rep. op. time slice
 
     # Clustering technique to use for generating representative days
@@ -129,7 +129,6 @@ params:
     ################################################################################
     ##### EMISSIONS INTENSITY & OFFSETS #####
 
-    offsets_case: "NoOffsets"                   # where No offsets = 0, Unlimited Offsets = 1.0
     maxOffsets_elec: [0.0, 0.0, 0.0, 0.0, 0.0]                        # % of gross emissions
     maxOffsets_gas: [0.0, 0.0, 0.0, 0.0, 0.0]
     maxOffsets: [0.05, 0.05, 0.05, 0.05, 0.05]

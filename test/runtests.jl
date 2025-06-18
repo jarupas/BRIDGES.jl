@@ -1,5 +1,6 @@
 using BRIDGES
 using Test
+using JuMP
 
 # =============================================================================
 # runtests.jl
@@ -18,14 +19,43 @@ using Test
 #
 # =============================================================================
 
-@testset "Presolve tests" begin
-    BRIDGES.solve_optimization_problem("ca",test_mode=true)
-end
-
-if get(ENV, "RUN_GUROBI_TESTS", "false") == "true"
-    @testset "Solving optimization problem" begin
-        BRIDGES.solve_optimization_problem("ca")
+@testset "BRIDGES package tests" begin
+    # === Shared setup ===
+    param, cons, data = redirect_stdout(devnull) do
+        p, c = BRIDGES.load_parameters("test")
+        d = BRIDGES.load_data(p, c)
+        BRIDGES.cluster!(p, c, d)
+        (p, c, d)
     end
-else
-    @info "Skipping Gurobi tests: RUN_GUROBI_TESTS is false or unset"
+
+    # === Test: Loading parameters ===
+    @testset "Loading parameters" begin
+        @test param isa Dict
+        @test cons isa Dict
+        @test haskey(param, "T_inv")
+        @test haskey(cons, "MJ_PER_MWh")
+    end
+
+    # === Test: Loading data ===
+    @testset "Loading data" begin
+        @test haskey(data[:GEN], :FUEL)
+    end
+
+    # === Test: Clustering ===
+    @testset "Clustering" begin
+        @test haskey(data[:CLUSTER], :medoids)
+    end
+
+    # === Test: Solving optimization problem (conditional) ===
+    if get(ENV, "RUN_GUROBI_TESTS", "true") == "true"
+        @testset "Solving optimization problem" begin
+            redirect_stdout(devnull) do
+                model = BRIDGES.solve_optimization_problem("test", false)
+                status = string(JuMP.termination_status(model))
+                @test status == "OPTIMAL"
+            end
+        end
+    else
+        @info "Skipping Gurobi tests: RUN_GUROBI_TESTS is false or unset"
+    end
 end
