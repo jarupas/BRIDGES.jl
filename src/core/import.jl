@@ -163,12 +163,12 @@ Fetches the cost value for a given technology and year from lookup tables.
 function get_cost_value(tech::AbstractString, lookup::DataFrame, scenarios::DataFrame, year::Int)
     subset_idx = findall(==(tech), lookup.Technology)
     if isempty(subset_idx)
-        error("Technology $(tech) not found in lookup.")
+        error("Technology $tech not found in lookup.")
     end
 
     scen_idx = findall(==(tech), scenarios.Technology)
     if isempty(scen_idx)
-        error("Technology $(tech) not found in CostScenarios.")
+        error("Technology $tech not found in CostScenarios.")
     end
 
     cost_scenario = scenarios.Cost[scen_idx[1]]
@@ -176,7 +176,7 @@ function get_cost_value(tech::AbstractString, lookup::DataFrame, scenarios::Data
     
     valid_idx = intersect(subset_idx, scen_cost_idx)
     if isempty(valid_idx)
-        error("No cost match for $(tech) and scenario $(cost_scenario).")
+        error("No cost match for $tech and scenario $cost_scenario.")
     end
     return lookup[valid_idx[1], year]
 end

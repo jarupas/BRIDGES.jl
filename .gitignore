@@ -4,3 +4,17 @@
 /Manifest*.toml
 /docs/Manifest*.toml
 /docs/build/
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+
+# BRIDGES output files #
+######################
+**/output/
+**/SLURM/
+
+# Snakemake metafiles #
+######################
+datapreprocessing/.snakemake
